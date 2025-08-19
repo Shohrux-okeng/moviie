@@ -40,8 +40,8 @@ const Header = () => {
 
           <nav className="hidden md:flex gap-6">
             {[
-              ["/", Monitor, "Афиша"],
-              ["/seans", Square, "Сеансы"],
+              ["/", Monitor, "Home"],
+              ["/movies", Square, "Movies"],
               ["/tickets", Ticket, "Билеты"],
               ["/search", Search, "Поиск"],
             ].map(([to, Icon, text]) => (
