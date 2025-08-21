@@ -6,7 +6,10 @@ import { Pagination, Select, Spin } from "antd";
 const { Option } = Select;
 
 const Movies = () => {
-  const [movies, setMovies] = useState<any[]>([]);
+  const [movies, setMovies] = useState<{ results: any[]; total_results: number }>({
+    results: [],
+    total_results: 0,
+  });
   const [genres, setGenres] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +26,10 @@ const Movies = () => {
         const res = await api.get(
           `/discover/movie?language=en-US&page=${page}&with_genres=${genre}&sort_by=${sort}&primary_release_year=${year}`
         );
-        setMovies(res.data);
+        setMovies({
+          results: res.data.results,
+          total_results: res.data.total_results,
+        });
       } catch (error) {
         console.error("Xatolik:", error);
       } finally {
@@ -103,7 +109,7 @@ const Movies = () => {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {movies.results?.map((movie: any) => (
+          {movies.results.map((movie) => (
             <Link
               to={`/movie/${movie.id}`}
               key={movie.id}
