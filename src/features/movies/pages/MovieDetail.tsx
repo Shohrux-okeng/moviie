@@ -147,12 +147,12 @@ const MovieDetail = () => {
       )}
 
       {activeTab === "similar" && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {similar.map((m) => (
             <Link
               to={`/movie/${m.id}`}
               key={m.id}
-              className="bg-[#111] rounded-lg overflow-hidden hover:scale-105 duration-200 block">
+              className="rounded-xl overflow-hidden shadow-lg hover:scale-105 hover:shadow-red-500/40 transition duration-300 cursor-pointer bg-gray-900 block">
               <img
                 src={
                   m.poster_path
