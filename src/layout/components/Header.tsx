@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Monitor, Square, Ticket, Search, Menu, X } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
+import { House, Clapperboard, Search, Menu, X, Bookmark } from "lucide-react";
 
 interface Slide {
   id: number;
@@ -12,6 +12,7 @@ interface Slide {
 const Header = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [open, setOpen] = useState(false);
+  const location = useLocation();
 
   const slides: Slide[] = [
     {
@@ -30,9 +31,11 @@ const Header = () => {
     },
   ];
 
+  const showBanner = location.pathname === "/";
+
   return (
     <header className="bg-black text-white">
-      <div className="fixed top-0 left-0 w-full bg-black z-50">
+      <div className="fixed top-0 left-0 w-full bg-black z-50 h-16">
         <div className="max-w-[1400px] mx-auto flex justify-between items-center h-16 px-4">
           <NavLink to="/" className="flex items-center gap-2">
             <img src="/logo.png" alt="Logo" className="h-8 object-contain" />
@@ -40,11 +43,11 @@ const Header = () => {
 
           <nav className="hidden md:flex gap-6">
             {[
-              ["/", Monitor, "Home"],
-              ["/movies", Square, "Movies"],
-              ["/tickets", Ticket, "Билеты"],
-              ["/search", Search, "Поиск"],
-            ].map(([to, Icon, text]) => (
+              ["/", House],
+              ["/movies", Clapperboard],
+              ["/bookmark", Bookmark],
+              ["/search", Search],
+            ].map(([to, Icon]) => (
               <NavLink
                 key={to as string}
                 to={to as string}
@@ -53,8 +56,7 @@ const Header = () => {
                     isActive ? "text-red-500" : "hover:text-red-500"
                   }`
                 }>
-                <Icon size={20} />
-                {text as string}
+                <Icon size={22} />
               </NavLink>
             ))}
           </nav>
@@ -74,9 +76,9 @@ const Header = () => {
           <div className="md:hidden bg-black border-t border-gray-700">
             <nav className="flex flex-col items-center gap-4 py-4">
               {[
-                ["/", Monitor, "Афиша"],
-                ["/seans", Square, "Сеансы"],
-                ["/tickets", Ticket, "Билеты"],
+                ["/", House, "Главная"],
+                ["/movies", Clapperboard, "Фильмы"],
+                ["/bookmark", Bookmark, "Закладки"],
                 ["/search", Search, "Поиск"],
               ].map(([to, Icon, text]) => (
                 <NavLink
@@ -92,7 +94,6 @@ const Header = () => {
                   {text as string}
                 </NavLink>
               ))}
-
               <button className="bg-red-600 w-[120px] h-[40px] rounded-[10px] hover:bg-red-700 duration-200">
                 Войти
               </button>
@@ -102,32 +103,36 @@ const Header = () => {
       </div>
 
       <div className="pt-16">
-        <div className="max-w-[1360px] mx-auto h-[300px] sm:h-[400px] md:h-[500px] lg:h-[640px] mt-4 rounded overflow-hidden">
-          <img
-            src={slides[activeIndex].banner}
-            alt={slides[activeIndex].title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        <div className="max-w-[1360px] mx-auto flex justify-center items-center gap-2 sm:gap-4 py-4 flex-wrap">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              onClick={() => setActiveIndex(index)}
-              className={`w-20 h-12 sm:w-24 sm:h-14 overflow-hidden rounded-lg border-2 transition ${
-                index === activeIndex
-                  ? "border-red-500"
-                  : "border-transparent hover:border-white"
-              }`}>
+        {showBanner && (
+          <>
+            <div className="max-w-[1360px] mx-auto h-[250px] sm:h-[350px] md:h-[480px] lg:h-[620px] mt-4 rounded overflow-hidden">
               <img
-                src={slide.thumb}
-                alt={slide.title}
+                src={slides[activeIndex].banner}
+                alt={slides[activeIndex].title}
                 className="w-full h-full object-cover"
               />
-            </button>
-          ))}
-        </div>
+            </div>
+
+            <div className="max-w-[1360px] mx-auto flex justify-center items-center gap-2 sm:gap-4 py-4 flex-wrap">
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-20 h-12 sm:w-24 sm:h-14 overflow-hidden rounded-lg border-2 transition ${
+                    index === activeIndex
+                      ? "border-red-500"
+                      : "border-transparent hover:border-white"
+                  }`}>
+                  <img
+                    src={slide.thumb}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </header>
   );

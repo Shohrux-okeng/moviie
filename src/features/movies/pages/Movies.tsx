@@ -6,7 +6,10 @@ import { Pagination, Select, Spin } from "antd";
 const { Option } = Select;
 
 const Movies = () => {
-  const [movies, setMovies] = useState<{ results: any[]; total_results: number }>({
+  const [movies, setMovies] = useState<{
+    results: any[];
+    total_results: number;
+  }>({
     results: [],
     total_results: 0,
   });
@@ -61,7 +64,7 @@ const Movies = () => {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <div className="max-w-[1360px] mx-auto py-10 px-4">
+      <div className="max-w-[1360px] mx-auto px-4 pt-[80px] pb-10">
         <h1 className="text-3xl font-bold mb-6 text-red-500">All Movies</h1>
 
         <div className="flex flex-wrap gap-4 mb-8">

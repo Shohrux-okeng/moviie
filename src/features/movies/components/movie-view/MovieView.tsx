@@ -15,7 +15,7 @@ interface Props {
 
 const MovieGrid: FC<Props> = ({ data, title }) => {
   return (
-    <section className="relative bg-black py-8">
+    <section className="relative bg-black py-8 ">
       <div className="max-w-[1400px] mx-auto">
         <div className="flex justify-between items-center px-2 mb-6">
           <h2 className="text-lg md:text-xl font-bold text-white">
@@ -26,23 +26,32 @@ const MovieGrid: FC<Props> = ({ data, title }) => {
           </button>
         </div>
 
+        {/* Grid */}
         <div className="grid gap-4 sm:gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {data?.results?.map((movie) => (
             <Link
               to={`/movie/${movie.id}`}
               key={movie.id}
-              className="bg-[#111] rounded-lg overflow-hidden hover:scale-105 duration-200 block">
+              className="bg-[#111] rounded-lg overflow-hidden hover:scale-105 duration-200 block"
+            >
+              {/* Poster */}
               <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                src={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                    : "/no-image.png"
+                }
                 alt={movie.title}
                 className="w-full h-[200px] sm:h-[240px] md:h-[280px] lg:h-[320px] object-cover bg-black"
               />
-              <div className="p-2">
+
+              {/* Title + Rating */}
+              <div className="p-2 min-h-[70px] flex flex-col justify-between">
                 <h3 className="font-bold text-sm sm:text-base line-clamp-1 text-white">
                   {movie.title}
                 </h3>
                 <p className="text-yellow-500 text-sm sm:text-base">
-                  ⭐ {movie.vote_average.toFixed(1)}
+                  ⭐ {movie.vote_average?.toFixed(1) ?? "0.0"}
                 </p>
               </div>
             </Link>
