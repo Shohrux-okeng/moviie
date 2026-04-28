@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { api } from "../../../shared/api";
+import BookmarkButton from "../../bookmark/components/BookmarkButton";
 
 interface MovieDetailType {
   id: number;
@@ -95,11 +96,23 @@ const MovieDetail = () => {
             <span>{movie.vote_average.toFixed(1)} rating</span>
             <span>{Math.round(movie.popularity)} views</span>
           </div>
-          <button
-            onClick={() => navigate("/")}
-            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg text-sm sm:text-base">
-            Go Home
-          </button>
+          <div className="flex gap-4 flex-wrap">
+            <BookmarkButton 
+              movie={{
+                id: movie.id,
+                title: movie.title,
+                poster_path: movie.poster_path,
+                vote_average: movie.vote_average,
+                release_date: movie.release_date,
+                overview: movie.overview,
+              }}
+            />
+            <button
+              onClick={() => navigate("/")}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg text-sm sm:text-base">
+              Go Home
+            </button>
+          </div>
         </div>
       </div>
 

@@ -45,7 +45,7 @@ const Header = () => {
             {[
               ["/", House],
               ["/movies", Clapperboard],
-              ["/bookmark", Bookmark],
+              ["/bookmarks", Bookmark],
               ["/search", Search],
             ].map(([to, Icon]) => (
               <NavLink
@@ -78,7 +78,7 @@ const Header = () => {
               {[
                 ["/", House, "Главная"],
                 ["/movies", Clapperboard, "Фильмы"],
-                ["/bookmark", Bookmark, "Закладки"],
+                ["/bookmarks", Bookmark, "Закладки"],
                 ["/search", Search, "Поиск"],
               ].map(([to, Icon, text]) => (
                 <NavLink

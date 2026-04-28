@@ -32,7 +32,7 @@ const MovieGrid: FC<Props> = ({ data, title }) => {
             <Link
               to={`/movie/${movie.id}`}
               key={movie.id}
-              className="bg-[#111] rounded-lg overflow-hidden hover:scale-105 duration-200 block"
+              className="bg-[#111] rounded-lg overflow-hidden hover:scale-105 duration-200 block h-full flex flex-col"
             >
               {/* Poster */}
               <img
@@ -42,12 +42,12 @@ const MovieGrid: FC<Props> = ({ data, title }) => {
                     : "/no-image.png"
                 }
                 alt={movie.title}
-                className="w-full h-[200px] sm:h-[240px] md:h-[280px] lg:h-[320px] object-cover bg-black"
+                className="w-full h-56 object-cover bg-black flex-shrink-0"
               />
 
               {/* Title + Rating */}
-              <div className="p-2 min-h-[70px] flex flex-col justify-between">
-                <h3 className="font-bold text-sm sm:text-base line-clamp-1 text-white">
+              <div className="p-2 flex-grow flex flex-col justify-between">
+                <h3 className="font-bold text-sm sm:text-base line-clamp-2 text-white">
                   {movie.title}
                 </h3>
                 <p className="text-yellow-500 text-sm sm:text-base">

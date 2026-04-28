@@ -116,20 +116,22 @@ const Movies = () => {
             <Link
               to={`/movie/${movie.id}`}
               key={movie.id}
-              className="rounded-xl overflow-hidden shadow-lg hover:scale-105 hover:shadow-red-500/40 transition duration-300 cursor-pointer bg-[#111] block">
+              className="rounded-xl overflow-hidden shadow-lg hover:scale-105 hover:shadow-red-500/40 transition duration-300 cursor-pointer bg-[#111] block h-full flex flex-col">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
-                className="w-full h-[300px] sm:h-[340px] md:h-[380px] object-cover rounded-t-xl"
+                className="w-full h-64 object-cover rounded-t-xl flex-shrink-0"
               />
-              <div className="p-3">
-                <h2 className="font-bold text-base text-white line-clamp-1">
+              <div className="p-3 flex-grow flex flex-col justify-between">
+                <h2 className="font-bold text-base text-white line-clamp-2">
                   {movie.title}
                 </h2>
-                <p className="text-yellow-500 text-sm">
-                  ⭐ {movie.vote_average.toFixed(1)}
-                </p>
-                <p className="text-gray-400 text-xs">{movie.release_date}</p>
+                <div>
+                  <p className="text-yellow-500 text-sm">
+                    ⭐ {movie.vote_average.toFixed(1)}
+                  </p>
+                  <p className="text-gray-400 text-xs">{movie.release_date}</p>
+                </div>
               </div>
             </Link>
           ))}
