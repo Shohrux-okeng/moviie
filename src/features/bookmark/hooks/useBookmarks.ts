@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../../../app/store';
+import type { RootState, AppDispatch } from '../../../app/store';
 import { setBookmarks, addBookmark, removeBookmark } from '../../../app/slices/bookmarkSlice';
-import { BookmarkedMovie } from '../../../app/slices/bookmarkSlice';
+import type { BookmarkedMovie } from '../../../app/slices/bookmarkSlice';
 
 const BOOKMARK_STORAGE_KEY = 'movieapp_bookmarks';
 

@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { useBookmarks } from '../hooks/useBookmarks';
-import BookmarkButton from '../components/BookmarkButton';
 
 const Bookmark = () => {
   const { bookmarks, toggleBookmark } = useBookmarks();

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { useBookmarks } from '../hooks/useBookmarks';
-import { BookmarkedMovie } from '../../../app/slices/bookmarkSlice';
+import type { BookmarkedMovie } from '../../../app/slices/bookmarkSlice';
 
 interface BookmarkButtonProps {
   movie: BookmarkedMovie;
