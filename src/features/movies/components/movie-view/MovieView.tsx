@@ -15,14 +15,14 @@ interface Props {
 
 const MovieGrid: FC<Props> = ({ data, title }) => {
   return (
-    <section className="relative bg-black py-8 ">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="flex justify-between items-center px-2 mb-6">
-          <h2 className="text-lg md:text-xl font-bold text-white">
+    <section className="relative bg-black py-10 border-t border-gray-900">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-white to-red-400 bg-clip-text text-transparent">
             {title || "Фильмы"}
           </h2>
-          <button className="text-red-500 text-sm hover:underline">
-            Показать все →
+          <button className="text-red-500 text-sm hover:text-red-400 font-semibold transition flex items-center gap-1">
+            Показать все <span className="text-lg">→</span>
           </button>
         </div>
 
@@ -32,27 +32,31 @@ const MovieGrid: FC<Props> = ({ data, title }) => {
             <Link
               to={`/movie/${movie.id}`}
               key={movie.id}
-              className="bg-[#111] rounded-lg overflow-hidden hover:scale-105 duration-200 block h-full flex flex-col"
+              className="group h-full flex flex-col"
             >
-              {/* Poster */}
-              <img
-                src={
-                  movie.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                    : "/no-image.png"
-                }
-                alt={movie.title}
-                className="w-full h-56 object-cover bg-black flex-shrink-0"
-              />
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-b from-gray-800 to-black flex-shrink-0">
+                <img
+                  src={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                      : "/no-image.png"
+                  }
+                  alt={movie.title}
+                  className="w-full h-56 object-cover group-hover:scale-110 transition duration-400"
+                />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                {/* Rating Badge */}
+                <div className="absolute top-2 right-2 bg-black/70 backdrop-blur px-2 py-1 rounded-lg text-yellow-500 text-xs font-bold">
+                  ⭐ {movie.vote_average?.toFixed(1) ?? "0.0"}
+                </div>
+              </div>
 
-              {/* Title + Rating */}
-              <div className="p-2 flex-grow flex flex-col justify-between">
-                <h3 className="font-bold text-sm sm:text-base line-clamp-2 text-white">
+              {/* Content */}
+              <div className="flex-grow flex flex-col justify-between mt-3">
+                <h3 className="font-bold text-sm sm:text-base line-clamp-2 text-white group-hover:text-red-500 transition">
                   {movie.title}
                 </h3>
-                <p className="text-yellow-500 text-sm sm:text-base">
-                  ⭐ {movie.vote_average?.toFixed(1) ?? "0.0"}
-                </p>
               </div>
             </Link>
           ))}

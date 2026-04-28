@@ -34,14 +34,15 @@ const Header = () => {
   const showBanner = location.pathname === "/";
 
   return (
-    <header className="bg-black text-white">
-      <div className="fixed top-0 left-0 w-full bg-black z-50 h-16">
-        <div className="max-w-[1400px] mx-auto flex justify-between items-center h-16 px-4">
-          <NavLink to="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="Logo" className="h-8 object-contain" />
+    <header className="bg-black text-white border-b border-gray-800">
+      <div className="fixed top-0 left-0 w-full backdrop-blur-md bg-black/95 z-50 h-16 border-b border-gray-800">
+        <div className="max-w-[1400px] mx-auto flex justify-between items-center h-16 px-4 sm:px-6">
+          <NavLink to="/" className="flex items-center gap-2 group">
+            <img src="/logo.png" alt="Logo" className="h-8 object-contain group-hover:scale-110 transition" />
+            <span className="hidden sm:inline font-bold text-lg bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent">Movies</span>
           </NavLink>
 
-          <nav className="hidden md:flex gap-6">
+          <nav className="hidden md:flex gap-8">
             {[
               ["/", House],
               ["/movies", Clapperboard],
@@ -52,16 +53,17 @@ const Header = () => {
                 key={to as string}
                 to={to as string}
                 className={({ isActive }) =>
-                  `flex flex-col items-center text-sm ${
-                    isActive ? "text-red-500" : "hover:text-red-500"
+                  `flex flex-col items-center gap-1 text-sm transition relative group ${
+                    isActive ? "text-red-500" : "text-gray-400 hover:text-white"
                   }`
                 }>
                 <Icon size={22} />
+                {isActive && <div className="absolute -bottom-3 w-6 h-1 bg-red-500 rounded-full"></div>}
               </NavLink>
             ))}
           </nav>
 
-          <button className="hidden md:block bg-red-600 w-[140px] h-[44px] rounded-[10px] hover:bg-red-700 duration-200">
+          <button className="hidden md:block bg-gradient-to-r from-red-600 to-red-500 w-[140px] h-[44px] rounded-lg hover:shadow-lg hover:shadow-red-500/50 font-semibold transition duration-300">
             Войти
           </button>
 
@@ -73,8 +75,8 @@ const Header = () => {
         </div>
 
         {open && (
-          <div className="md:hidden bg-black border-t border-gray-700">
-            <nav className="flex flex-col items-center gap-4 py-4">
+          <div className="md:hidden bg-black/98 backdrop-blur-md border-t border-gray-800 animate-in fade-in slide-in-from-top-2 duration-200">
+            <nav className="flex flex-col items-start gap-2 py-4 px-4">
               {[
                 ["/", House, "Главная"],
                 ["/movies", Clapperboard, "Фильмы"],
@@ -86,15 +88,15 @@ const Header = () => {
                   to={to as string}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-2 text-base ${
-                      isActive ? "text-red-500" : "hover:text-red-500"
+                    `flex items-center gap-3 text-base w-full px-3 py-2 rounded-lg transition ${
+                      isActive ? "text-red-500 bg-red-500/10" : "text-gray-400 hover:text-white hover:bg-gray-900"
                     }`
                   }>
                   <Icon size={20} />
                   {text as string}
                 </NavLink>
               ))}
-              <button className="bg-red-600 w-[120px] h-[40px] rounded-[10px] hover:bg-red-700 duration-200">
+              <button className="w-full bg-gradient-to-r from-red-600 to-red-500 h-[40px] rounded-lg hover:shadow-lg hover:shadow-red-500/50 font-semibold transition mt-2">
                 Войти
               </button>
             </nav>
@@ -105,23 +107,27 @@ const Header = () => {
       <div className="pt-16">
         {showBanner && (
           <>
-            <div className="max-w-[1360px] mx-auto h-[250px] sm:h-[350px] md:h-[480px] lg:h-[620px] mt-4 rounded overflow-hidden">
+            <div className="max-w-[1360px] mx-auto h-[250px] sm:h-[350px] md:h-[480px] lg:h-[620px] mt-4 rounded-2xl overflow-hidden group relative">
               <img
                 src={slides[activeIndex].banner}
                 alt={slides[activeIndex].title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-white opacity-0 group-hover:opacity-100 transition duration-300 translate-y-4 group-hover:translate-y-0">
+                <h3 className="text-2xl sm:text-3xl font-bold mb-2">{slides[activeIndex].title}</h3>
+              </div>
             </div>
 
-            <div className="max-w-[1360px] mx-auto flex justify-center items-center gap-2 sm:gap-4 py-4 flex-wrap">
+            <div className="max-w-[1360px] mx-auto flex justify-center items-center gap-2 sm:gap-4 py-6 flex-wrap px-4">
               {slides.map((slide, index) => (
                 <button
                   key={slide.id}
                   onClick={() => setActiveIndex(index)}
-                  className={`w-20 h-12 sm:w-24 sm:h-14 overflow-hidden rounded-lg border-2 transition ${
+                  className={`w-20 h-12 sm:w-24 sm:h-14 overflow-hidden rounded-xl border-2 transition ${
                     index === activeIndex
-                      ? "border-red-500"
-                      : "border-transparent hover:border-white"
+                      ? "border-red-500 ring-2 ring-red-500/50 scale-105"
+                      : "border-gray-700 hover:border-gray-500 hover:scale-110"
                   }`}>
                   <img
                     src={slide.thumb}
