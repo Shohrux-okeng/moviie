@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../app/store';
-import { setUser, setLoading, setError, logout } from '../../../app/slices/authSlice';
+import { setUser, setLoading, setError } from '../../../app/slices/authSlice';
 import { supabase } from '../../../shared/supabase';
 
 export const useAuth = () => {
@@ -50,7 +50,7 @@ export const useAuth = () => {
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (_event, session) => {
         if (session?.user) {
           const authUser = {
             id: session.user.id,

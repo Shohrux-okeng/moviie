@@ -20,7 +20,7 @@ export const authService = {
   // Email/Password Register
   async register(credentials: RegisterCredentials): Promise<AuthResponse> {
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: credentials.email,
         password: credentials.password,
         options: {
