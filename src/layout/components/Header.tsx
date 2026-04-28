@@ -38,7 +38,11 @@ const Header = () => {
   const showBanner = location.pathname === "/";
 
   const handleLogout = async () => {
-    await authService.logout();
+    try {
+      await authService.logout();
+    } catch (err) {
+      console.error('[v0] Logout error:', err);
+    }
     setProfileOpen(false);
   };
 

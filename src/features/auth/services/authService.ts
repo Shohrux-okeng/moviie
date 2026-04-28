@@ -20,6 +20,9 @@ export const authService = {
   // Email/Password Register
   async register(credentials: RegisterCredentials): Promise<AuthResponse> {
     try {
+      if (!supabase) {
+        return { success: false, error: 'Supabase is not configured' };
+      }
       const { error } = await supabase.auth.signUp({
         email: credentials.email,
         password: credentials.password,
@@ -46,6 +49,9 @@ export const authService = {
   // Email/Password Login
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
+      if (!supabase) {
+        return { success: false, error: 'Supabase is not configured' };
+      }
       const { error } = await supabase.auth.signInWithPassword({
         email: credentials.email,
         password: credentials.password,
@@ -113,6 +119,10 @@ export const authService = {
   // Logout
   async logout(): Promise<AuthResponse> {
     try {
+      if (!supabase) {
+        localStorage.removeItem('auth_user');
+        return { success: true };
+      }
       const { error } = await supabase.auth.signOut();
 
       if (error) {
