@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../app/store';
 import { setUser, setLoading, setError } from '../../../app/slices/authSlice';
 import { supabase } from '../../../shared/supabase';
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -59,7 +60,7 @@ export const useAuth = () => {
     if (supabase) {
       try {
         const { data: { subscription: sub } } = supabase.auth.onAuthStateChange(
-          async (_event, session) => {
+          async (_event: AuthChangeEvent, session: Session | null) => {
             if (session?.user) {
               const authUser = {
                 id: session.user.id,
