@@ -55,10 +55,9 @@ const Header = () => {
                 className={({ isActive }) =>
                   `flex flex-col items-center gap-1 text-sm transition relative group ${
                     isActive ? "text-red-500" : "text-gray-400 hover:text-white"
-                  }`
+                  } ${isActive ? "after:absolute after:-bottom-3 after:w-6 after:h-1 after:bg-red-500 after:rounded-full" : ""}`
                 }>
                 <Icon size={22} />
-                {isActive && <div className="absolute -bottom-3 w-6 h-1 bg-red-500 rounded-full"></div>}
               </NavLink>
             ))}
           </nav>
