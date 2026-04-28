@@ -1,6 +1,8 @@
 import { memo, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { House, Clapperboard, Search, Menu, X, Bookmark } from "lucide-react";
+import { NavLink, useLocation, Link } from "react-router-dom";
+import { House, Clapperboard, Search, Menu, X, Bookmark, LogOut, User } from "lucide-react";
+import { useAuth } from "../../features/auth/hooks/useAuth";
+import { authService } from "../../features/auth/services/authService";
 
 interface Slide {
   id: number;
@@ -12,7 +14,9 @@ interface Slide {
 const Header = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
+  const { user, isAuthenticated } = useAuth();
 
   const slides: Slide[] = [
     {
@@ -32,6 +36,11 @@ const Header = () => {
   ];
 
   const showBanner = location.pathname === "/";
+
+  const handleLogout = async () => {
+    await authService.logout();
+    setProfileOpen(false);
+  };
 
   return (
     <header className="bg-black text-white border-b border-gray-800">
@@ -62,9 +71,38 @@ const Header = () => {
             ))}
           </nav>
 
-          <button className="hidden md:block bg-gradient-to-r from-red-600 to-red-500 w-[140px] h-[44px] rounded-lg hover:shadow-lg hover:shadow-red-500/50 font-semibold transition duration-300">
-            Войти
-          </button>
+          {isAuthenticated ? (
+            <div className="hidden md:block relative">
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-800 border border-gray-800 hover:border-gray-700 transition"
+              >
+                <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center">
+                  <User size={18} className="text-white" />
+                </div>
+                <span className="text-sm text-gray-300">{user?.fullName || user?.email}</span>
+              </button>
+
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-800 rounded-lg shadow-lg z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-gray-800 transition border-t border-gray-800"
+                  >
+                    <LogOut size={18} />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="hidden md:block bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 px-6 py-2 rounded-lg font-semibold transition duration-300"
+            >
+              Sign In
+            </Link>
+          )}
 
           <button
             className="md:hidden text-white"
@@ -95,9 +133,23 @@ const Header = () => {
                   {text as string}
                 </NavLink>
               ))}
-              <button className="w-full bg-gradient-to-r from-red-600 to-red-500 h-[40px] rounded-lg hover:shadow-lg hover:shadow-red-500/50 font-semibold transition mt-2">
-                Войти
-              </button>
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 h-[40px] rounded-lg font-semibold transition mt-2"
+                >
+                  <LogOut size={18} />
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="w-full text-center bg-gradient-to-r from-red-600 to-red-500 h-[40px] rounded-lg hover:shadow-lg hover:shadow-red-500/50 font-semibold transition mt-2 flex items-center justify-center"
+                  onClick={() => setOpen(false)}
+                >
+                  Sign In
+                </Link>
+              )}
             </nav>
           </div>
         )}
